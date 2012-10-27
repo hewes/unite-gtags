@@ -157,7 +157,6 @@ function! unite#sources#gtags#define()
           \ 'gtags_option' : gtags_command.option,
           \ 'gtags_result' : gtags_command.result,
           \ 'hooks' : has_key(gtags_command, 'hooks') ? gtags_command.hooks : {},
-          \ 'syntax' : has_key(gtags_command, 'syntax') ? gtags_command.syntax : {},
           \ }
     function! l:source.gather_candidates(args, context)
       let l:options = self.gtags_option(a:args, a:context)
