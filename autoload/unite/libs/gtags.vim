@@ -30,9 +30,6 @@ let s:format = {
 
 function! s:format["ctags-x"].func(line)
   let l:items = matchlist(a:line, '\(\d\+\)\s\+\(.*\.\S\+\)\s\(.*\)$')
-  if len(l:items) != 4
-    throw "internal error, result of ctags-x is broken"
-  endif
   return {
         \  "kind": "jump_list",
         \  "word" : l:items[0],
@@ -72,10 +69,10 @@ function! unite#libs#gtags#exec_global(option, long_option, pattern)
         " not supported result option try next option
         continue
       elseif v:shell_error == 3
-        call unite#util#print_error('GTAGS not found.')
+        call unite#print_message("[unite-gtags] Warning: GTAGS not found")
       else
         " unknown error
-        call unite#util#print_error('global command failed. command line: ' . l:cmd. '. exit with '. string(v:shell_error))
+        call unite#print_message('[unite-gtags] global command failed. command line: ' . l:cmd. '. exit with '. string(v:shell_error))
       endif
       " interruppt execution
       return ''

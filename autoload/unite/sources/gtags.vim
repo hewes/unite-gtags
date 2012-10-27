@@ -32,9 +32,10 @@ let s:ref = {
       \ 'result' : function('unite#libs#gtags#result2unite'),
       \}
 function! s:ref.option(args, context)
-  let l:pattern = expand("<cword>")
-  if empty(l:pattern)
-    return []
+  if empty(a:args)
+    let l:pattern = expand("<cword>")
+  else
+    let l:pattern = a:args[0]
   endif
   return {
         \'short': 'rs',
@@ -57,6 +58,7 @@ function! s:def.option(args, context)
     let l:pattern = a:args[0]
   endif
   if empty(l:pattern)
+    call unite#print_message("[unite-gtags] Warning: No word specified ")
     return []
   endif
   return {
@@ -76,6 +78,7 @@ let s:context = {
 function! s:context.option(args, context)
   let l:pattern = expand("<cword>")
   if empty(l:pattern)
+    call unite#print_message("[unite-gtags] Warning: No word exists on cursor ")
     return []
   endif
   let l:long = "--from-here=\"" . line('.') . ":" . expand("%") . "\""
@@ -160,6 +163,9 @@ function! unite#sources#gtags#define()
           \ }
     function! l:source.gather_candidates(args, context)
       let l:options = self.gtags_option(a:args, a:context)
+      if type(l:options) != type({})
+        return []
+      endif
       let l:result = unite#libs#gtags#exec_global(l:options.short, l:options.long, l:options.pattern)
       return self.gtags_result(self.name , l:result)
     endfunction
