@@ -70,6 +70,10 @@ function! unite#libs#gtags#exec_global(option, long_option, pattern)
         continue
       elseif v:shell_error == 3
         call unite#print_message("[unite-gtags] Warning: GTAGS not found")
+      elseif v:shell_error == 126
+        call unite#print_message("[unite-gtags] Warning: ". g:unite_source_gtags_global_cmd . " permission denied")
+      elseif v:shell_error == 127
+        call unite#print_message("[unite-gtags] Warning: ". g:unite_source_gtags_global_cmd . " command not found in PATH")
       else
         " unknown error
         call unite#print_message('[unite-gtags] global command failed. command line: ' . l:cmd. '. exit with '. string(v:shell_error))
