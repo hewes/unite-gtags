@@ -90,7 +90,7 @@ function! s:completion.option(args, context)
     let l:prefix = a:args[0]
   endif
   return {
-        \ 'short': 'c',
+        \ 'short': 'cs',
         \ 'long' : '',
         \ 'pattern' : l:prefix,
         \}
