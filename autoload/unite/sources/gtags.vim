@@ -77,7 +77,7 @@ function! s:completion.result(name, result)
   let l:symbols = split(a:result, '\r\n\|\r\|\n')
   return map(l:symbols, '{
         \ "source" : "gtags/completion",
-        \ 'description' : 'global with -c option',
+        \ "description" : "global with -c option",
         \ "kind" : "gtags_completion",
         \ "word" : v:val,
         \ }')
