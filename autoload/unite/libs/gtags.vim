@@ -67,7 +67,8 @@ function! unite#libs#gtags#exec_global(option, long_option, pattern)
       return l:result
     endif
   endfor
-  " all result options are invalid
+  " all result options are not supported
+  call unite#print_message('[unite-gtags] your global cmd does not support '. string(l:result_options) . '. check g:unite_source_gtags_result_option')
   return ''
 endfunction
 
