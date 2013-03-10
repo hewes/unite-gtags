@@ -10,24 +10,34 @@ let s:format = {
 
 function! s:format["ctags-x"].func(line)
   let l:items = matchlist(a:line, '\(\d\+\)\s\+\(.*\.\S\+\)\s\(.*\)$')
-  return {
-        \  "kind": "jump_list",
-        \  "word" : l:items[0],
-        \  "action__path" : l:items[2],
-        \  "action__line" : l:items[1],
-        \  "action__text" : l:items[3],
-        \}
+  if empty(l:items)
+    call unite#print_message('[unite-gtags] unexpected result for ctags-x: ' . a:line)
+    return {}
+  else
+    return {
+          \  "kind": "jump_list",
+          \  "word" : l:items[0],
+          \  "action__path" : l:items[2],
+          \  "action__line" : l:items[1],
+          \  "action__text" : l:items[3],
+          \}
+  endif
 endfunction
 
 function! s:format["ctags-mod"].func(line)
   let l:items = matchlist(a:line, '^\([^\t]\+\)\t\+\(\d\+\)\t\+\(.\+\)$')
-  return {
-        \  "kind": "jump_list",
-        \  "word" : l:items[0],
-        \  "action__path" : l:items[1],
-        \  "action__line" : l:items[2],
-        \  "action__text" : l:items[3],
-        \}
+  if empty(l:items)
+    call unite#print_message('[unite-gtags] unexpected result for ctags-mod: ' . a:line)
+    return {}
+  else
+    return {
+          \  "kind": "jump_list",
+          \  "word" : l:items[0],
+          \  "action__path" : l:items[1],
+          \  "action__line" : l:items[2],
+          \  "action__text" : l:items[3],
+          \}
+  endif
 endfunction
 " }}}
 
