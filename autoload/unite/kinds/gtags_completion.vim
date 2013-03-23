@@ -8,7 +8,7 @@ endfunction
 
 let s:kind = {
       \ 'name' : 'gtags_completion',
-      \ 'default_action' : 'list_definitions',
+      \ 'default_action' : 'list_refereces',
       \ 'action_table': {},
       \}
 

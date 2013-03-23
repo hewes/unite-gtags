@@ -78,6 +78,6 @@ It executes 'global -c' and show results.
 
     :Unite gtags/completion
 
-Default action on the result is 'list_definitions'.
+Default action on the result is 'list_references'.
 'list_references' is also available.
 
