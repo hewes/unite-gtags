@@ -12,58 +12,72 @@ $HOME/.vim,  or $HOME/vimfiles on Windows.
 
 ## Prerequisite
 
-GNU GLOBAL (5.7 or later) must be installed your system and the executable binary on your PATH.
+GNU GLOBAL (5.7 or later) must be installed your system and the executable binary *global* on your PATH.
 
 ## Usage
 
+The sub commands with which this source provide below:
+
+- Unite gtags/context
+- Unite gtags/ref
+- Unite gtags/def
+- Unite gtags/grep
+- Unite gtags/completion
+
 ### List context result
 Show the references or definitions of a word.
-execute Unite command with "gtags/context" as a source parameter.
+Execute Unite command with "gtags/context" as a source parameter.
+It executes 'global --from-here' with expand('\<cword\>')'.
 
-  :Unite gtags/context
+    :Unite gtags/context
 
-it executes 'global --from-here' with <cword>.
-when a cursor is on a definition, list references.
-otherwise list definitions.
+If cursor is on a definition, the result may be references of it,
+otherwise may be definitions.
+Arguments of this command has no work, the command ignores it.
 
 ### List references
-Show the references of a word.
-execute Unite command with "gtags/ref" as a source parameter.
+Show references of a word.
 
-  :Unite gtags/ref
+Execute Unite command with "gtags/ref" as a source parameter.
+It executes 'global -rs' with a pattern which is spcecified as first argument.
 
-it executes 'global -rs' with a pattern.
-when exeucte Unite with no arguments, the pattern is <cword>,
-otherwise the pattern is the first argument.
+    :Unite gtags/ref:<pattern>
+
+When exeucte Unite with no arguments, expand('\<cword\>') is used as pattern.
+
+    :Unite gtags/ref
 
 ### List definitions
-Show the definitions of a word.
-execute Unite command with "gtags/def" as a source parameter.
+Show definitions of a word.
 
-  :Unite gtags/def
+Execute Unite command with "gtags/def" as a source parameter.
+It executes 'global -d' with a pattern which is specified as first argument.
 
-it executes 'global -d' with a pattern.
-when exeucte Unite with no arguments, the pattern is <cword>,
-otherwise the pattern is the first argument.
+    :Unite gtags/def:<pattern>
+
+When exeucte Unite with no arguments, the pattern is expand('\<cword\>'),
+
+    :Unite gtags/def
 
 ### List grep result
 Show the grep result of a word.
-execute Unite command with "gtags/gtags" as a source parameter.
 
-  :Unite gtags/gtags
+Execute Unite command with "gtags/grep" as a source parameter.
+It executes 'global -g' with a pattern which is specified as first argument.
 
-it executes 'global -g' with a pattern.
-when exeucte Unite with no arguments, input pattern after execute command,
-otherwise the pattern is the first argument.
+    :Unite gtags/grep:<pattern>
+
+When exeucte Unite with no arguments, input pattern on prompt.
+
+    :Unite gtags/grep
 
 ### List all tokens
 Show all tokens on GTAGS
-execute Unite command with "gtags/completion" as a source parameter.
+Execute Unite command with "gtags/completion" as a source parameter.
+It executes 'global -c' and show results.
 
-  :Unite gtags/completion
+    :Unite gtags/completion
 
-it executes 'global -c' and show results.
-
-default action on the result is 'list_definitions'.
+Default action on the result is 'list_definitions'.
 'list_references' is also available.
 
