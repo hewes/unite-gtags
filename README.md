@@ -81,14 +81,14 @@ It executes 'global -c' and show results.
 Default action on the result is 'list\_references'.
 'list\_definitions' is also available.
 
-# Configuration
-## Grouping by filepath
+## Configuration
+### Grouping by filepath
 
 When you set g:unite\_source\_gtags\_treelize = 1 (default 0),
 unite result is grouped by filepath and enable you to select a candidate with tree like interface.
 This format is effective when filepath is too long string.
 
-### Example
+#### Example
 
 Default format:
 
