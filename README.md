@@ -78,6 +78,29 @@ It executes 'global -c' and show results.
 
     :Unite gtags/completion
 
-Default action on the result is 'list_references'.
-'list_definitions' is also available.
+Default action on the result is 'list\_references'.
+'list\_definitions' is also available.
+
+# Configuration
+## Grouping by filepath
+
+When you set g:unite\_source\_gtags\_treelize = 1 (default 0),
+unite result is grouped by filepath and enable you to select a candidate with tree like interface.
+This format is effective when filepath is too long string.
+
+### Example
+
+Default format:
+
+    sample1/foo.rb  2    def hoge
+    sample1/foo.rb  6      hoge
+    sample2/bar.rb  4      hoge
+
+Tree format:
+
+    sample1/foo.rb
+      2    def hoge
+      6      hoge
+    sample2/bar.rb
+      4      hoge
 
