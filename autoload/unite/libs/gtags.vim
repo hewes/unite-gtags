@@ -87,8 +87,43 @@ function! unite#libs#gtags#result2unite(source, result)
   if empty(a:result)
     return []
   endif
-  return map(split(a:result, '\r\n\|\r\|\n'),
+  let l:candidates = map(split(a:result, '\r\n\|\r\|\n'),
         \ 'extend(s:format[g:unite_source_gtags_result_option].func(v:val), {"source" : a:source})')
+  if len(l:candidates) > 1 && unite#libs#gtags#is_tree_format()
+    return unite#libs#gtags#treelize(l:candidates)
+  else
+    return l:candidates
+  endif
+endfunction
+
+function! unite#libs#gtags#is_tree_format()
+  return get(g:, 'unite_source_gtags_treelize', 0)
+endfunction
+
+" group candidates by action__path for tree like view
+function! unite#libs#gtags#treelize(candidates)
+  let l:candidates = []
+  let l:root = {}
+  for l:cand in a:candidates
+    if !has_key(l:root, l:cand.action__path)
+      let l:root[l:cand.action__path] = {
+            \ 'abbr' : l:cand.action__path,
+            \ 'word' : l:cand.action__path,
+            \ 'action__path' : l:cand.action__path,
+            \ 'kind' : 'jump_list',
+            \ 'node' : 1,
+            \ 'children' : []
+            \}
+    endif
+    let l:node = l:root[l:cand.action__path]
+    let l:cand['word'] = "  " . l:cand['action__line'] . "  " . l:cand['action__text']
+    call add(l:node.children, l:cand)
+  endfor
+  for l:cand in values(l:root)
+    call add(l:candidates, l:cand)
+    call extend(l:candidates, l:cand.children)
+  endfor
+  return l:candidates
 endfunction
 
 let &cpo = s:save_cpo

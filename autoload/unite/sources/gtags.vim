@@ -6,6 +6,7 @@ set cpo&vim
 let s:ref = {
       \ 'name' : 'ref',
       \ 'description' : 'global with -rs option',
+      \ 'enabel_tree_matcher' : 1,
       \ 'result' : function('unite#libs#gtags#result2unite'),
       \}
 function! s:ref.option(args, context)
@@ -26,6 +27,7 @@ endfunction
 let s:def = {
       \ 'name' : 'def',
       \ 'description' : 'global with -d option',
+      \ 'enabel_tree_matcher' : 1,
       \ 'result' : function('unite#libs#gtags#result2unite'),
       \}
 function! s:def.option(args, context)
@@ -50,6 +52,7 @@ endfunction
 let s:context = {
       \'name' : 'context',
       \ 'description' : 'global with --from-here option',
+      \ 'enabel_tree_matcher' : 1,
       \ 'result' : function('unite#libs#gtags#result2unite'),
       \}
 function! s:context.option(args, context)
@@ -102,6 +105,7 @@ let s:grep = {
       \ 'name' : 'grep',
       \ 'description' : 'global with -g option',
       \ 'result' : function('unite#libs#gtags#result2unite'),
+      \ 'enabel_tree_matcher' : 1,
       \ 'hooks' : {},
       \}
 
@@ -138,6 +142,9 @@ function! unite#sources#gtags#define()
           \ 'gtags_result' : gtags_command.result,
           \ 'hooks' : has_key(gtags_command, 'hooks') ? gtags_command.hooks : {},
           \ }
+    if has_key(gtags_command, 'enabel_tree_matcher')
+      let l:source['filters'] = ['gtags_tree_matcher']
+    endif
     function! l:source.gather_candidates(args, context)
       let l:options = self.gtags_option(a:args, a:context)
       if type(l:options) != type({})
