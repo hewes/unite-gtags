@@ -44,7 +44,7 @@ function! s:matcher.filter(candidates, context)
             \ printf('stridx(tolower(v:val.word), %s) != -1', string(tolower(input))) :
             \ printf('stridx(v:val.word, %s) != -1', string(input))
     endif
-    if unite#libs#gtags#is_tree_format()
+    if a:context.is_treelized
       call s:mark_tree_matching_candidate(l:candidates, pred)
     else
       call s:mark_normal_matching_candidate(l:candidates, pred)

@@ -83,21 +83,18 @@ function! unite#libs#gtags#exec_global(option, long_option, pattern)
 endfunction
 
 " build unite items from global command result
-function! unite#libs#gtags#result2unite(source, result)
+function! unite#libs#gtags#result2unite(source, result, context)
   if empty(a:result)
     return []
   endif
   let l:candidates = map(split(a:result, '\r\n\|\r\|\n'),
         \ 'extend(s:format[g:unite_source_gtags_result_option].func(v:val), {"source" : a:source})')
-  if len(l:candidates) > 1 && unite#libs#gtags#is_tree_format()
+  let a:context.is_treelized = len(l:candidates) > 1 && get(g:, 'unite_source_gtags_treelize', 0)
+  if a:context.is_treelized
     return unite#libs#gtags#treelize(l:candidates)
   else
     return l:candidates
   endif
-endfunction
-
-function! unite#libs#gtags#is_tree_format()
-  return get(g:, 'unite_source_gtags_treelize', 0)
 endfunction
 
 " group candidates by action__path for tree like view

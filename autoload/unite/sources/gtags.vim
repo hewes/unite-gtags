@@ -73,7 +73,7 @@ endfunction
 " source gtags/completion {{{
 let s:completion = { 'name' : 'completion'}
 
-function! s:completion.result(name, result)
+function! s:completion.result(name, result, context)
   if empty(a:result)
     return []
   endif
@@ -151,7 +151,7 @@ function! unite#sources#gtags#define()
         return []
       endif
       let l:result = unite#libs#gtags#exec_global(l:options.short, l:options.long, l:options.pattern)
-      return self.gtags_result(self.name , l:result)
+      return self.gtags_result(self.name , l:result, a:context)
     endfunction
     call add(l:sources, l:source)
   endfor
