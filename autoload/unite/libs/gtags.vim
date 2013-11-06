@@ -16,7 +16,7 @@ function! s:format["ctags-x"].func(line)
   else
     return {
           \  "kind": "jump_list",
-          \  "word" : l:items[0],
+          \  "word" : l:items[2] . ' |' . l:items[1] . '| ' . l:items[3],
           \  "action__path" : l:items[2],
           \  "action__line" : l:items[1],
           \  "action__text" : l:items[3],
@@ -32,7 +32,7 @@ function! s:format["ctags-mod"].func(line)
   else
     return {
           \  "kind": "jump_list",
-          \  "word" : l:items[0],
+          \  "word" : l:items[1] . ' |' .  l:items[2] . '| ' . l:items[3],
           \  "action__path" : l:items[1],
           \  "action__line" : l:items[2],
           \  "action__text" : l:items[3],
