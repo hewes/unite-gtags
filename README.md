@@ -108,9 +108,9 @@ Tree format:
 
 Highlight for Line number
 
-    uniteSource\_\_Gtags\_LineNr (default LineNr)
+    uniteSource__Gtags_LineNr (default LineNr)
 
 Highlight for filepath in tree format
 
-    uniteSource\_\_Gtags\_Path (default File)
+    uniteSource__Gtags_Path (default File)
 
