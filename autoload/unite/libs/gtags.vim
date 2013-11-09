@@ -104,8 +104,7 @@ function! unite#libs#gtags#treelize(candidates)
   for l:cand in a:candidates
     if !has_key(l:root, l:cand.action__path)
       let l:root[l:cand.action__path] = {
-            \ 'abbr' : l:cand.action__path,
-            \ 'word' : l:cand.action__path,
+            \ 'word' : "[path] " . l:cand.action__path,
             \ 'action__path' : l:cand.action__path,
             \ 'kind' : 'jump_list',
             \ 'node' : 1,
@@ -113,7 +112,7 @@ function! unite#libs#gtags#treelize(candidates)
             \}
     endif
     let l:node = l:root[l:cand.action__path]
-    let l:cand['word'] = "  " . l:cand['action__line'] . "  " . l:cand['action__text']
+    let l:cand['word'] = "|" . l:cand['action__line'] . "|  " . l:cand['action__text']
     call add(l:node.children, l:cand)
   endfor
   for l:cand in values(l:root)
@@ -121,6 +120,14 @@ function! unite#libs#gtags#treelize(candidates)
     call extend(l:candidates, l:cand.children)
   endfor
   return l:candidates
+endfunction
+
+" group candidates by action__path for tree like view
+function! unite#libs#gtags#on_syntax(args, context)
+  syntax match uniteSource__Gtags_LineNr /\zs|\d*|\ze/  contained containedin=uniteSource__Gtags
+  highlight default link uniteSource__Gtags_LineNr LineNr
+  syntax match uniteSource__Gtags_Path "\[path\] \zs[^ ]\{-1,}\ze\s*$" contained containedin=uniteSource__Gtags
+  highlight default link uniteSource__Gtags_Path Directory
 endfunction
 
 let &cpo = s:save_cpo

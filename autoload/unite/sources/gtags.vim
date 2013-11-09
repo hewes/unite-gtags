@@ -7,6 +7,7 @@ let s:ref = {
       \ 'name' : 'ref',
       \ 'description' : 'global with -rs option',
       \ 'enable_tree_matcher' : 1,
+      \ 'enable_syntax' : 1,
       \ 'result' : function('unite#libs#gtags#result2unite'),
       \}
 function! s:ref.option(args, context)
@@ -28,6 +29,7 @@ let s:def = {
       \ 'name' : 'def',
       \ 'description' : 'global with -d option',
       \ 'enable_tree_matcher' : 1,
+      \ 'enable_syntax' : 1,
       \ 'result' : function('unite#libs#gtags#result2unite'),
       \}
 function! s:def.option(args, context)
@@ -53,6 +55,7 @@ let s:context = {
       \'name' : 'context',
       \ 'description' : 'global with --from-here option',
       \ 'enable_tree_matcher' : 1,
+      \ 'enable_syntax' : 1,
       \ 'result' : function('unite#libs#gtags#result2unite'),
       \}
 function! s:context.option(args, context)
@@ -106,6 +109,7 @@ let s:grep = {
       \ 'description' : 'global with -g option',
       \ 'result' : function('unite#libs#gtags#result2unite'),
       \ 'enable_tree_matcher' : 1,
+      \ 'enable_syntax' : 1,
       \ 'hooks' : {},
       \}
 
@@ -144,6 +148,10 @@ function! unite#sources#gtags#define()
           \ }
     if has_key(gtags_command, 'enable_tree_matcher')
       let l:source['filters'] = ['gtags_tree_matcher']
+    endif
+    if has_key(gtags_command, 'enable_syntax')
+      let l:source.hooks.on_syntax = function("unite#libs#gtags#on_syntax")
+      let l:source.syntax = "uniteSource__Gtags"
     endif
     function! l:source.gather_candidates(args, context)
       let l:options = self.gtags_option(a:args, a:context)

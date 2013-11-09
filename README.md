@@ -92,15 +92,15 @@ This format is effective when filepath is too long string.
 
 Default format:
 
-    sample1/foo.rb  2    def hoge
-    sample1/foo.rb  6      hoge
-    sample2/bar.rb  4      hoge
+    sample1/foo.rb  |2|  def hoge
+    sample1/foo.rb  |6|    hoge
+    sample2/bar.rb  |4|    hoge
 
 Tree format:
 
-    sample1/foo.rb
-      2    def hoge
-      6      hoge
-    sample2/bar.rb
-      4      hoge
+    [path ] sample1/foo.rb
+    |2|  def hoge
+    |6|    hoge
+    [path] sample2/bar.rb
+    |4|    hoge
 
