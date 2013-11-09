@@ -98,7 +98,7 @@ Default format:
 
 Tree format:
 
-    [path ] sample1/foo.rb
+    [path] sample1/foo.rb
     |2|  def hoge
     |6|    hoge
     [path] sample2/bar.rb
