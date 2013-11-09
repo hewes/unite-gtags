@@ -104,3 +104,13 @@ Tree format:
     [path] sample2/bar.rb
     |4|    hoge
 
+### Synatax Highlight
+
+Highlight for Line number
+
+    uniteSource\_\_Gtags\_LineNr (default LineNr)
+
+Highlight for filepath in tree format
+
+    uniteSource\_\_Gtags\_Path (default File)
+
