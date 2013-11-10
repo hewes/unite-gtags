@@ -89,7 +89,8 @@ function! unite#libs#gtags#result2unite(source, result, context)
   endif
   let l:candidates = map(split(a:result, '\r\n\|\r\|\n'),
         \ 'extend(s:format[g:unite_source_gtags_result_option].func(v:val), {"source" : a:source})')
-  let a:context.is_treelized = len(l:candidates) > 1 && get(g:, 'unite_source_gtags_treelize', 0)
+  let a:context.is_treelized = !(a:context.immediately && len(l:candidates) == 1) && 
+        \ get(g:, 'unite_source_gtags_treelize', 0)
   if a:context.is_treelized
     return unite#libs#gtags#treelize(l:candidates)
   else
