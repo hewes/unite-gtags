@@ -150,6 +150,9 @@ function! unite#sources#gtags#define()
       let l:source['filters'] = ['gtags_tree_matcher']
     endif
     if has_key(gtags_command, 'enable_syntax')
+      function! l:source.hooks.on_syntax(args, context)
+        let a:context.is_treelized = 0
+      endfunction
       let l:source.hooks.on_syntax = function("unite#libs#gtags#on_syntax")
       let l:source.syntax = "uniteSource__Gtags"
     endif

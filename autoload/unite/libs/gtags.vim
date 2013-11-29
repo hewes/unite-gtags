@@ -125,9 +125,14 @@ endfunction
 
 " group candidates by action__path for tree like view
 function! unite#libs#gtags#on_syntax(args, context)
-  syntax match uniteSource__Gtags_LineNr /\zs|\d*|\ze/  contained containedin=uniteSource__Gtags
+  if a:context.is_treelized
+    syntax match uniteSource__Gtags_LineNr /\zs|\d\+|\ze/  contained containedin=uniteSource__Gtags
+    syntax match uniteSource__Gtags_Path /\[path\]\s[^\s].*$/ contained containedin=uniteSource__Gtags
+  else
+    syntax match uniteSource__Gtags_LineNr /\s\zs|\d\+|\ze\s/  contained containedin=uniteSource__Gtags
+    syntax match uniteSource__Gtags_Path /\zs.\+\ze\s|\d\+|\s/ contained containedin=uniteSource__Gtags
+  endif
   highlight default link uniteSource__Gtags_LineNr LineNr
-  syntax match uniteSource__Gtags_Path "\[path\] \zs[^ ]\{-1,}\ze\s*$" contained containedin=uniteSource__Gtags
   highlight default link uniteSource__Gtags_Path Directory
 endfunction
 

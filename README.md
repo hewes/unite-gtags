@@ -106,11 +106,11 @@ Tree format:
 
 ### Synatax Highlight
 
-Highlight for Line number
+Highlight for Line number.
 
     uniteSource__Gtags_LineNr (default LineNr)
 
-Highlight for filepath in tree format
+Highlight for filepath.
 
     uniteSource__Gtags_Path (default File)
 
