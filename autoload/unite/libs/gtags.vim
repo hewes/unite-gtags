@@ -133,7 +133,7 @@ function! unite#libs#gtags#on_syntax(args, context)
     syntax match uniteSource__Gtags_Path /\zs.\+\ze\s|\d\+|\s/ contained containedin=uniteSource__Gtags
   endif
   highlight default link uniteSource__Gtags_LineNr LineNr
-  highlight default link uniteSource__Gtags_Path Directory
+  highlight default link uniteSource__Gtags_Path File
 endfunction
 
 let &cpo = s:save_cpo
