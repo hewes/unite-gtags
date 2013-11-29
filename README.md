@@ -106,9 +106,11 @@ Tree format:
 
 ### Syntax Highlight
 
-- uniteSource\_\_Gtags\_LineNr
-  Highlight for Line number (default linked to LineNr).
+* uniteSource\_\_Gtags\_LineNr
 
-- uniteSource\_\_Gtags\_Path
-  Highlight for filepath (default linked to File).
+    Highlight for Line number (default linked to LineNr).
+
+* uniteSource\_\_Gtags\_Path
+
+    Highlight for filepath (default linked to File).
 
