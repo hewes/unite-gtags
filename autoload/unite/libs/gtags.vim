@@ -105,7 +105,8 @@ function! unite#libs#gtags#treelize(candidates)
   for l:cand in a:candidates
     if !has_key(l:root, l:cand.action__path)
       let l:root[l:cand.action__path] = {
-            \ 'word' : "[path] " . l:cand.action__path,
+            \ 'abbr' : "[path] " . l:cand.action__path,
+            \ 'word' : l:cand.action__path,
             \ 'action__path' : l:cand.action__path,
             \ 'kind' : 'jump_list',
             \ 'node' : 1,
