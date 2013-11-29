@@ -104,13 +104,11 @@ Tree format:
     [path] sample2/bar.rb
     |4|    hoge
 
-### Synatax Highlight
+### Syntax Highlight
 
-Highlight for Line number.
+- uniteSource\_\_Gtags\_LineNr
+  Highlight for Line number (default linked to LineNr).
 
-    uniteSource__Gtags_LineNr (default LineNr)
-
-Highlight for filepath.
-
-    uniteSource__Gtags_Path (default File)
+- uniteSource\_\_Gtags\_Path
+  Highlight for filepath (default linked to File).
 
