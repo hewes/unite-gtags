@@ -139,5 +139,10 @@ function! unite#libs#gtags#on_syntax(args, context)
   highlight default link uniteSource__Gtags_Path File
 endfunction
 
+" initialize context.treelize
+function! unite#libs#gtags#on_init_common(args, context)
+  let a:context.is_treelized = 0
+endfunction
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
