@@ -94,9 +94,9 @@ Following items are configured for each project:
 Configuration Example:
 
     g:unite_source_gtags_project_config = {
-      '/home/foo/project1/': { 'treelize': 0 },
-      '_':                   { 'treelize': 1 }
-    }
+      \ '/home/foo/project1/': { 'treelize': 0 },
+      \ '_':                   { 'treelize': 1 }
+      \ }
     " specify your project path as key.
     " '_' in key means default configuration.
 
