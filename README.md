@@ -93,7 +93,7 @@ Following items are configured for each project:
 
 Configuration Example:
 
-    g:unite\_source\_gtags\_project\_config = {
+    g:unite_source_gtags_project_config = {
       '/home/foo/project1/': { 'treelize': 0 },
       '_':                   { 'treelize': 1 }
     }
