@@ -94,12 +94,18 @@ function! unite#libs#gtags#result2unite(source, result, context)
   let l:candidates = filter(l:candidates, '!empty(v:val)')
   let l:candidates = map(l:candidates, 'extend(v:val, {"source" : a:source})')
   let a:context.is_treelized = !(a:context.immediately && len(l:candidates) == 1) && 
-        \ get(g:, 'unite_source_gtags_treelize', 0)
+        \ unite#libs#gtags#get_project_config('treelize', 0)
   if a:context.is_treelized
     return unite#libs#gtags#treelize(l:candidates)
   else
     return l:candidates
   endif
+endfunction
+
+function! unite#libs#gtags#get_project_config(key, default)
+  let l:gtags_root_dir = exists("$GTAGSROOT") ? $GTAGSROOT : fnamemodify(".", ':p')
+  let l:cd_config = get(g:unite_source_gtags_project_config, l:gtags_root_dir, get(g:unite_source_gtags_project_config, '_'))
+  return get(l:cd_config, a:key, a:default)
 endfunction
 
 " group candidates by action__path for tree like view

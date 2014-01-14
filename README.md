@@ -82,13 +82,28 @@ Default action on the result is 'list\_references'.
 'list\_definitions' is also available.
 
 ## Configuration
-### Grouping by filepath
 
-When you set g:unite\_source\_gtags\_treelize = 1 (default 0),
-unite result is grouped by filepath and enable you to select a candidate with tree like interface.
+### Project Configuration
+
+Set project specific configuration. Project is specified with $GTAGSROOT if configured,
+otherwise with result of fnamemodify('.', ':p'), usually current dir described as absolute path '/' added.
+
+Following items are configured for each project:
+- treelize (0 or 1): treelize result format or not
+
+Configuration Example:
+
+    g:unite\_source\_gtags\_project\_config = {
+      '/home/foo/project1/': { 'treelize': 0 },
+      '_':                   { 'treelize': 1 }
+    }
+    " specify your project path as key.
+    " '_' in key means default configuration.
+
+#### treelize
+
+When treelize = 1, unite result is grouped by filepath and enable you to select a candidate with tree like interface.
 This format is effective when filepath is too long string.
-
-#### Example
 
 Default format:
 
