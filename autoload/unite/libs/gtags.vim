@@ -42,7 +42,8 @@ endfunction
 " }}}
 
 let s:default_project_config_value = {
-      \ 'treelize': 0
+      \ 'treelize': 0,
+      \ 'absolute_path': 0,
       \ }
 
 function! unite#libs#gtags#get_project_config(key)
@@ -60,11 +61,12 @@ endfunction
 
 " execute global command and return result
 function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
+  let l:short_option = a:short_option . (unite#libs#gtags#get_project_config("absolute_path") ? "a" : '')
   " build command
   let l:cmd = printf("%s %s -q%s -e %s",
         \ g:unite_source_gtags_global_cmd,
         \ a:long_option,
-        \ a:short_option,
+        \ l:short_option,
         \ g:unite_source_gtags_shell_quote . a:pattern . g:unite_source_gtags_shell_quote)
 
   " specify --result option

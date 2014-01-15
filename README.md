@@ -89,7 +89,9 @@ Set project specific configuration. Project is specified with $GTAGSROOT if conf
 otherwise with result of fnamemodify('.', ':p'), usually current dir described as absolute path '/' added.
 
 Following items are configured for each project:
+
 - treelize (0 or 1): treelize result format or not
+- absolute_path (0 or 1): add 'a' option to global command or not
 
 Configuration Example:
 
@@ -118,6 +120,23 @@ Tree format:
     |6|    hoge
     [path] sample2/bar.rb
     |4|    hoge
+
+#### absolute\_path
+
+When absolute\_path = 1, add 'a' option to global command.
+Path in unite result changes to absolute\_path format.
+
+Relative path (default):
+
+    sample1/foo.rb |2|   def hoge
+    sample1/foo.rb |6|     hoge
+    sample2/bar.rb |4|     hoge
+
+Absolute path:
+
+    /home/foo/sample1/foo.rb |2|   def hoge
+    /home/foo/sample1/foo.rb |6|     hoge
+    /home/foo/sample2/bar.rb |4|     hoge
 
 ### Syntax Highlight
 
