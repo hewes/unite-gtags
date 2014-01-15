@@ -2,8 +2,6 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-call unite#util#set_default('g:unite_source_gtags_project_config', {'_': { 'treelize': 0 }})
-
 " source gtags/ref {{{
 let s:ref = {
       \ 'name' : 'ref',

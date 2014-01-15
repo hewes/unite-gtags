@@ -41,6 +41,23 @@ function! s:format["ctags-mod"].func(line)
 endfunction
 " }}}
 
+let s:default_project_config_value = {
+      \ 'treelize': 0
+      \ }
+
+function! unite#libs#gtags#get_project_config(key)
+  if !exists("g:unite_source_gtags_project_config") || type(g:unite_source_gtags_project_config) != type({})
+    return s:default_project_config_value[a:key]
+  endif
+  let l:gtags_root_dir = exists("$GTAGSROOT") ? $GTAGSROOT : fnamemodify(".", ':p')
+  let l:cd_config = get(g:unite_source_gtags_project_config, l:gtags_root_dir, get(g:unite_source_gtags_project_config, '_'))
+  if type(l:cd_config) == type({})
+    return get(l:cd_config, a:key, s:default_project_config_value[a:key])
+  else
+    return s:default_project_config_value[a:key]
+endif
+endfunction
+
 " execute global command and return result
 function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
   " build command
@@ -94,18 +111,12 @@ function! unite#libs#gtags#result2unite(source, result, context)
   let l:candidates = filter(l:candidates, '!empty(v:val)')
   let l:candidates = map(l:candidates, 'extend(v:val, {"source" : a:source})')
   let a:context.is_treelized = !(a:context.immediately && len(l:candidates) == 1) && 
-        \ unite#libs#gtags#get_project_config('treelize', 0)
+        \ unite#libs#gtags#get_project_config('treelize')
   if a:context.is_treelized
     return unite#libs#gtags#treelize(l:candidates)
   else
     return l:candidates
   endif
-endfunction
-
-function! unite#libs#gtags#get_project_config(key, default)
-  let l:gtags_root_dir = exists("$GTAGSROOT") ? $GTAGSROOT : fnamemodify(".", ':p')
-  let l:cd_config = get(g:unite_source_gtags_project_config, l:gtags_root_dir, get(g:unite_source_gtags_project_config, '_'))
-  return get(l:cd_config, a:key, a:default)
 endfunction
 
 " group candidates by action__path for tree like view
