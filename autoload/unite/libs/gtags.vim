@@ -44,6 +44,7 @@ endfunction
 let s:default_project_config_value = {
       \ 'treelize': 0,
       \ 'absolute_path': 0,
+      \ 'gtags_libpath': [],
       \ }
 
 function! unite#libs#gtags#get_project_config(key)
@@ -68,6 +69,16 @@ function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
         \ a:long_option,
         \ l:short_option,
         \ g:unite_source_gtags_shell_quote . a:pattern . g:unite_source_gtags_shell_quote)
+
+  let l:gtags_libpath = unite#libs#gtags#get_project_config("gtags_libpath")
+  if !empty(l:gtags_libpath)
+    if type(l:gtags_libpath) == type([])
+      " TODO: judge platform (*nix or windows)
+      let l:cmd = "GTAGSLIBPATH=" . $GTAGSLIBPATH . ':' . join(l:gtags_libpath, ':') . ' ' . l:cmd
+    else
+      call unite#print_error('[unite-gtags] gtags_libpath must be list')
+    endif
+  endif
 
   " specify --result option
   let l:result_options = exists("g:unite_source_gtags_result_option") ? [g:unite_source_gtags_result_option] : keys(s:format)
@@ -95,6 +106,7 @@ function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
       if !exists("g:unite_source_gtags_result_option")
         let g:unite_source_gtags_result_option = result_option
       endif
+      echomsg printf("%s --result=%s", l:cmd, result_option)
       return l:result
     endif
   endfor

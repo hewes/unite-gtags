@@ -25,6 +25,7 @@ The sub commands with which this source provide below:
 - Unite gtags/completion
 
 ### List context result
+
 Show the references or definitions of a word.
 Execute Unite command with "gtags/context" as a source parameter.
 It executes 'global --from-here' with expand('\<cword\>')'.
@@ -36,6 +37,7 @@ otherwise may be definitions.
 Arguments of this command has no work, the command ignores it.
 
 ### List references
+
 Show references of a word.
 
 Execute Unite command with "gtags/ref" as a source parameter.
@@ -48,6 +50,7 @@ When exeucte Unite with no arguments, expand('\<cword\>') is used as pattern.
     :Unite gtags/ref
 
 ### List definitions
+
 Show definitions of a word.
 
 Execute Unite command with "gtags/def" as a source parameter.
@@ -60,6 +63,7 @@ When exeucte Unite with no arguments, the pattern is expand('\<cword\>'),
     :Unite gtags/def
 
 ### List grep result
+
 Show the grep result of a word.
 
 Execute Unite command with "gtags/grep" as a source parameter.
@@ -72,6 +76,7 @@ When exeucte Unite with no arguments, input pattern on prompt.
     :Unite gtags/grep
 
 ### List all tokens
+
 Show all tokens on GTAGS
 Execute Unite command with "gtags/completion" as a source parameter.
 It executes 'global -c' and show results.
@@ -92,6 +97,7 @@ Following items are configured for each project:
 
 - treelize (0 or 1): treelize result format or not
 - absolute_path (0 or 1): add 'a' option to global command or not
+- gtags_libpath (list of string): join with ':' and use it as GTAGSLIBPATH
 
 Configuration Example:
 
@@ -138,6 +144,24 @@ Absolute path:
     /home/foo/sample1/foo.rb |6|     hoge
     /home/foo/sample2/bar.rb |4|     hoge
 
+#### gtags\_libpath
+
+When gtags\_libpath is specified with list of string,
+unite-gtags joins them with ':' and use the joined string as GTAGSLIBPATH.
+(*caution* joinining multiple pathes is available in only \*nix system.)
+
+Example:
+
+When configure gtags\_libpath with following
+
+    let g:unite_source_gtags_project_config[<cur_dir>] = {
+    \ 'gtags_libpath': ['/usr/include/', '/home/foo/include/']
+    \ }
+
+unite-gtags executes global with temporary environment variable GTAGSLIBPATH:
+
+    GTAGSLIBPATH=$GTAGSLIBPATH:/usr/include/:/home/foo/include/ global ...
+
 ### Syntax Highlight
 
 * uniteSource\_\_Gtags\_LineNr
@@ -147,4 +171,5 @@ Absolute path:
 * uniteSource\_\_Gtags\_Path
 
     Highlight for filepath (default linked to File).
+
 
