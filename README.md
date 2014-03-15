@@ -2,102 +2,83 @@
 
 ## Introduction
 
-unite-gtags is a [unite.vim](https://github.com/Shougo/unite.vim)'s source.
-Execute 'global' command and display the result in Unite interface.
+`unite-gtags` is a [unite.vim](https://github.com/Shougo/unite.vim)'s source.
+Execute `global` command and display the result in Unite interface.
 
 ## Install
 
 Install the distributed files into your Vim script directory which is usually
-$HOME/.vim,  or $HOME/vimfiles on Windows.
+`$HOME/.vim`,  or `$HOME/vimfiles` on Windows.
 
 ## Prerequisite
 
-GNU GLOBAL (5.7 or later) must be installed your system and the executable binary *global* on your PATH.
+GNU GLOBAL (5.7 or later) must be installed your system and the executable binary `global` on your PATH.
 
 ## Usage
 
-The sub commands with which this source provide below:
+This source provides following sub commands for `Unite`
 
-- Unite gtags/context
-- Unite gtags/ref
-- Unite gtags/def
-- Unite gtags/grep
-- Unite gtags/completion
+- `Unite gtags/context`
+- `Unite gtags/ref`
+- `Unite gtags/def`
+- `Unite gtags/grep`
+- `Unite gtags/completion`
 
-### List context result
+### Unite gtags/context
 
-Show the references or definitions of a word.
-Execute Unite command with "gtags/context" as a source parameter.
-It executes 'global --from-here' with expand('\<cword\>')'.
+`Unite gtags/context` lists *the references or definitions* of a word.
+It executes `global --from-here=<location of cursor> -qe <word on cursor>`
 
-    :Unite gtags/context
+When your cursor is on a definition Unite lists references of it,
+otherwise list definitions.
 
-If cursor is on a definition, the result may be references of it,
-otherwise may be definitions.
-Arguments of this command has no work, the command ignores it.
+### Unite gtags/ref
 
-### List references
+`Unite gtags/ref` lists *references* of a word.
+(It executes `global -qrs -e <pattern>` in internal.)
 
-Show references of a word.
+You can specify `<pattern>` as an argument `:Unite gtags/ref:<pattern>`.
+When exeucte this command with no arguments `:Unite gtags/ref`, unite-gtags uses `expand('<cword>')`  as pattern.
 
-Execute Unite command with "gtags/ref" as a source parameter.
-It executes 'global -rs' with a pattern which is spcecified as first argument.
+### Unite gtags/def
 
-    :Unite gtags/ref:<pattern>
+`Unite gtags/ref` lists *definitions* of a word.
+(It executes `global -qd -e <pattern>` in internal.)
 
-When exeucte Unite with no arguments, expand('\<cword\>') is used as pattern.
+You can specify `<pattern>` as an argument `:Unite gtags/def:<pattern>`.
+When exeucte this command with no arguments `:Unite gtags/def`, unite-gtags uses `expand('\<cword\>')`  as pattern.
 
-    :Unite gtags/ref
+### Unite gtags/grep
 
-### List definitions
+`Unite gtags/grep` lists *grep result* of a word.
+(It executes `global -qg -e <pattern>` in internal.)
 
-Show definitions of a word.
+You can specify `<pattern>` as an argument `:Unite gtags/grep:<pattern>`.
+When exeucte Unite with no arguments `:Unite gtags/grep`, input prompt is shown.
+unite-gtags uses the input as `<pattern>`.
 
-Execute Unite command with "gtags/def" as a source parameter.
-It executes 'global -d' with a pattern which is specified as first argument.
+### Unite gtags/completion
 
-    :Unite gtags/def:<pattern>
+`Unite gtags/completion` lists all tokens in GTAGS.
+It executes `global -c` and show results.
 
-When exeucte Unite with no arguments, the pattern is expand('\<cword\>'),
-
-    :Unite gtags/def
-
-### List grep result
-
-Show the grep result of a word.
-
-Execute Unite command with "gtags/grep" as a source parameter.
-It executes 'global -g' with a pattern which is specified as first argument.
-
-    :Unite gtags/grep:<pattern>
-
-When exeucte Unite with no arguments, input pattern on prompt.
-
-    :Unite gtags/grep
-
-### List all tokens
-
-Show all tokens on GTAGS
-Execute Unite command with "gtags/completion" as a source parameter.
-It executes 'global -c' and show results.
-
-    :Unite gtags/completion
-
-Default action on the result is 'list\_references'.
-'list\_definitions' is also available.
+Default action on the Unite item is `list_references`.
+`list_definitions` is also available.
 
 ## Configuration
 
 ### Project Configuration
 
-Set project specific configuration. Project is specified with $GTAGSROOT if configured,
+Set project specific configuration. Project is specified with `$GTAGSROOT` if configured,
 otherwise with result of fnamemodify('.', ':p'), usually current dir described as absolute path '/' added.
 
 Following items are configured for each project:
 
-- treelize (0 or 1): treelize result format or not
-- absolute_path (0 or 1): add 'a' option to global command or not
-- gtags_libpath (list of string): join with ':' and use it as GTAGSLIBPATH
+- `treelize (0 or 1)`: show Unite's items in tree format or not
+- `absolute_path (0 or 1)`: add `-a` option to global command or not
+- `gtags_libpath (list of string)`: join with ':' and use it as `GTAGSLIBPATH`
+
+You can set default configuration with specifying `_` as project name.
 
 Configuration Example:
 
@@ -110,7 +91,7 @@ Configuration Example:
 
 #### treelize
 
-When treelize = 1, unite result is grouped by filepath and enable you to select a candidate with tree like interface.
+When `treelize = 1`, unite result is grouped by filepath and enable you to select a candidate with tree like interface.
 This format is effective when filepath is too long string.
 
 Default format:
@@ -129,8 +110,8 @@ Tree format:
 
 #### absolute\_path
 
-When absolute\_path = 1, add 'a' option to global command.
-Path in unite result changes to absolute\_path format.
+When `absolute_path = 1`, `unite-gtags` add `-a` option to `global` command.
+Path in unite's items changes to absolute path format.
 
 Relative path (default):
 
@@ -146,9 +127,9 @@ Absolute path:
 
 #### gtags\_libpath
 
-When gtags\_libpath is specified with list of string,
-unite-gtags joins them with ':' and use the joined string as GTAGSLIBPATH.
-(*caution* joinining multiple pathes is available in only \*nix system.)
+When `gtags_libpath` is specified with list of string,
+unite-gtags joins them with ':' and use the joined string as `GTAGSLIBPATH`.
+(This feature is only available in \*nix system.)
 
 Example:
 
@@ -158,18 +139,17 @@ When configure gtags\_libpath with following
     \ 'gtags_libpath': ['/usr/include/', '/home/foo/include/']
     \ }
 
-unite-gtags executes global with temporary environment variable GTAGSLIBPATH:
+`unite-gtags` executes `global` with temporary environment variable `GTAGSLIBPATH` like below
 
     GTAGSLIBPATH=$GTAGSLIBPATH:/usr/include/:/home/foo/include/ global ...
 
 ### Syntax Highlight
 
-* uniteSource\_\_Gtags\_LineNr
+* `uniteSource__Gtags_LineNr`
 
-    Highlight for Line number (default linked to LineNr).
+    Highlight for Line number (default linked to `LineNr`).
 
-* uniteSource\_\_Gtags\_Path
+* `uniteSource__Gtags_Path`
 
-    Highlight for filepath (default linked to File).
-
+    Highlight for filepath (default linked to `File`).
 
