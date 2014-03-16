@@ -106,7 +106,6 @@ function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
       if !exists("g:unite_source_gtags_result_option")
         let g:unite_source_gtags_result_option = result_option
       endif
-      echomsg printf("%s --result=%s", l:cmd, result_option)
       return l:result
     endif
   endfor
