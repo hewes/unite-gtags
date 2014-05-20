@@ -42,7 +42,7 @@ When exeucte this command with no arguments `:Unite gtags/ref`, unite-gtags uses
 
 ### Unite gtags/def
 
-`Unite gtags/ref` lists *definitions* of a word.
+`Unite gtags/def` lists *definitions* of a word.
 (It executes `global -qd -e <pattern>` in internal.)
 
 You can specify `<pattern>` as an argument `:Unite gtags/def:<pattern>`.
