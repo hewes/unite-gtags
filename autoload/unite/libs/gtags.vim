@@ -41,11 +41,22 @@ function! s:format["ctags-mod"].func(line)
 endfunction
 " }}}
 
+let s:default_config = {
+      \ "ref_option" : "rs",
+      \ "def_option" : "d",
+      \ "result_option" : "ctags-mod",
+      \ "global_cmd" : "global",
+      \ }
+
 let s:default_project_config_value = {
       \ 'treelize': 0,
       \ 'absolute_path': 0,
       \ 'gtags_libpath': [],
       \ }
+
+function! unite#libs#gtags#get_global_config(key)
+  return get(g:, "unite_source_gtags_". a:key, s:default_config[a:key])
+endfunction
 
 function! unite#libs#gtags#get_project_config(key)
   if !exists("g:unite_source_gtags_project_config") || type(g:unite_source_gtags_project_config) != type({})
@@ -65,7 +76,7 @@ function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
   let l:short_option = a:short_option . (unite#libs#gtags#get_project_config("absolute_path") ? "a" : '')
   " build command
   let l:cmd = printf("%s %s -q%s -e %s",
-        \ g:unite_source_gtags_global_cmd,
+        \ unite#libs#gtags#get_global_config("global_cmd"),
         \ a:long_option,
         \ l:short_option,
         \ g:unite_source_gtags_shell_quote . a:pattern . g:unite_source_gtags_shell_quote)
@@ -81,37 +92,33 @@ function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
   endif
 
   " specify --result option
-  let l:result_options = exists("g:unite_source_gtags_result_option") ? [g:unite_source_gtags_result_option] : keys(s:format)
-  for result_option in l:result_options
-    let l:result = system(printf("%s --result=%s", l:cmd, result_option))
+  let l:result_option = unite#libs#gtags#get_global_config("result_option")
+  let l:built_cmd = printf("%s --result=%s", l:cmd, result_option)
+  let l:result = system(l:built_cmd)
 
-    if v:shell_error != 0
-      " exit global command with error
-      if v:shell_error == 2
-        " not supported result option try next option
-        continue
-      elseif v:shell_error == 3
-        call unite#print_error("[unite-gtags] Warning: GTAGS not found")
-      elseif v:shell_error == 126
-        call unite#print_error("[unite-gtags] Warning: ". g:unite_source_gtags_global_cmd . " permission denied")
-      elseif v:shell_error == 127
-        call unite#print_error("[unite-gtags] Warning: ". g:unite_source_gtags_global_cmd . " command not found in PATH")
-      else
-        " unknown error
-        call unite#print_error('[unite-gtags] global command failed. command line: ' . l:cmd. '. exit with '. string(v:shell_error))
-      endif
-      " interruppt execution
+  if v:shell_error != 0
+    " exit global command with error
+    if v:shell_error == 2
+      " specified args include unsupported one
+      call unite#print_error('[unite-gtags] any specified args are not supported cmd:"'. l:built_cmd . '". outputs: '. l:result)
+      let l:versoin_info = get(split(system(printf("%s --version", unite#libs#gtags#get_global_config("global_cmd"))), '\r\n\|\r\|\n'), 0)
+      call unite#print_error('[unite-gtags] ' . l:versoin_info)
       return ''
+    elseif v:shell_error == 3
+      call unite#print_error("[unite-gtags] Warning: GTAGS not found")
+    elseif v:shell_error == 126
+      call unite#print_error("[unite-gtags] Warning: ". g:unite_source_gtags_global_cmd . " permission denied")
+    elseif v:shell_error == 127
+      call unite#print_error("[unite-gtags] Warning: ". g:unite_source_gtags_global_cmd . " command not found in PATH")
     else
-      if !exists("g:unite_source_gtags_result_option")
-        let g:unite_source_gtags_result_option = result_option
-      endif
-      return l:result
+      " unknown error
+      call unite#print_error('[unite-gtags] global command failed. command line: ' . l:built_cmd . '. exit with '. string(v:shell_error))
     endif
-  endfor
-  " all result options are not supported
-  call unite#print_error('[unite-gtags] your global cmd does not support '. string(l:result_options) . '. check g:unite_source_gtags_result_option')
-  return ''
+    " interruppt execution
+    return ''
+  else
+    return l:result
+  endif
 endfunction
 
 " build unite items from global command result
@@ -120,7 +127,7 @@ function! unite#libs#gtags#result2unite(source, result, context)
     return []
   endif
   let l:candidates =  map(split(a:result, '\r\n\|\r\|\n'),
-        \ 's:format[g:unite_source_gtags_result_option].func(v:val)')
+        \ 's:format["'. unite#libs#gtags#get_global_config("result_option") . '"].func(v:val)')
   let l:candidates = filter(l:candidates, '!empty(v:val)')
   let l:candidates = map(l:candidates, 'extend(v:val, {"source" : a:source})')
   let a:context.is_treelized = !(a:context.immediately && len(l:candidates) == 1) && 

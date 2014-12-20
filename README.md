@@ -14,6 +14,9 @@ Install the distributed files into your Vim script directory which is usually
 
 GNU GLOBAL (5.7 or later) must be installed your system and the executable binary `global` on your PATH.
 
+By default, `unite-gtags` assumes GNU GLOBAL 6.X.
+If you use GNU GLOBAL 5.X, see `GNU GLOBAL Compatibility` section.
+
 ## Usage
 
 This source provides following sub commands for `Unite`
@@ -152,4 +155,16 @@ When configure gtags\_libpath with following
 * `uniteSource__Gtags_Path`
 
     Highlight for filepath (default linked to `File`).
+
+### GNU GLOBAL Compatibility
+
+#### GNU GLOBAL 5.7
+
+If you use GNU GLOBAL 5.X please set following global variables in your vimrc.
+
+- `g:unite_source_gtags_ref_option`: `"r"`
+- `g:unite_source_gtags_def_option`: `""` (empty string)
+- `g:unite_source_gtags_result_option`: `"ctags-x"`
+
+(test only GNU GLOBAL 5.7.1 in Ubuntu 14.04)
 

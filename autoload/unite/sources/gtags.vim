@@ -21,7 +21,7 @@ function! s:ref.option(args, context)
     let l:pattern = a:args[0]
   endif
   return {
-        \'short': 'rs',
+        \'short': unite#libs#gtags#get_global_config("ref_option"),
         \'long': '',
         \ 'pattern' : l:pattern ,
         \ }
@@ -51,7 +51,7 @@ function! s:def.option(args, context)
     return []
   endif
   return {
-        \'short': 'd',
+        \'short': unite#libs#gtags#get_global_config("def_option"),
         \'long': '',
         \'pattern' : l:pattern 
         \}
