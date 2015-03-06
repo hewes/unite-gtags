@@ -9,7 +9,7 @@ let s:format = {
       \ }
 
 function! s:format["ctags-x"].func(line)
-  let l:items = matchlist(a:line, '\(\d\+\)\s\+\(.*\.\S\+\)\s\(.*\)$')
+  let l:items = matchlist(a:line, '\s\+\(\d\+\)\s\+\(.*\.\S\+\)\s\(.*\)$')
   if empty(l:items)
     call unite#print_error('[unite-gtags] unexpected result for ctags-x: ' . a:line)
     return {}
@@ -75,7 +75,7 @@ endfunction
 function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
   let l:short_option = a:short_option . (unite#libs#gtags#get_project_config("absolute_path") ? "a" : '')
   " build command
-  let l:cmd = printf("%s %s -q%s -e %s",
+  let l:cmd = printf("%s %s -q%s %s",
         \ unite#libs#gtags#get_global_config("global_cmd"),
         \ a:long_option,
         \ l:short_option,
@@ -98,7 +98,9 @@ function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
 
   if v:shell_error != 0
     " exit global command with error
-    if v:shell_error == 2
+    if v:shell_error == 1
+      call unite#print_error("[unite-gtags] Warning: file does not exists")
+    elseif v:shell_error == 2
       " specified args include unsupported one
       call unite#print_error('[unite-gtags] any specified args are not supported cmd:"'. l:built_cmd . '". outputs: '. l:result)
       let l:versoin_info = get(split(system(printf("%s --version", unite#libs#gtags#get_global_config("global_cmd"))), '\r\n\|\r\|\n'), 0)
