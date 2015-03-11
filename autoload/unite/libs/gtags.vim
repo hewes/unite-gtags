@@ -42,8 +42,8 @@ endfunction
 " }}}
 
 let s:default_config = {
-      \ "ref_option" : "rs",
-      \ "def_option" : "d",
+      \ "ref_option" : "rs -e",
+      \ "def_option" : "d -e",
       \ "result_option" : "ctags-mod",
       \ "global_cmd" : "global",
       \ }
