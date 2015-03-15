@@ -26,6 +26,7 @@ This source provides following sub commands for `Unite`
 - `Unite gtags/def`
 - `Unite gtags/grep`
 - `Unite gtags/completion`
+- `Unite gtags/file`
 
 ### Unite gtags/context
 
@@ -67,6 +68,14 @@ It executes `global -c` and show results.
 
 Default action on the Unite item is `list_references`.
 `list_definitions` is also available.
+
+### Unite gtags/file
+
+`Unite gtags/file` lists current file's tokens in GTAGS.
+It executes `global -f` and show results.
+
+You can specify `<pattern>` as an argument `:Unite gtags/file:<pathname>`.
+When exeucte this command with no arguments `:Unite gtags/file`, unite-gtags uses `buffer_name("%")` as filepath.
 
 ## Configuration
 

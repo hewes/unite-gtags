@@ -145,12 +145,39 @@ function! s:grep.option(args, context)
 endfunction
 " }}}
 
+" source gtags/file {{{
+let s:file = {
+      \ 'name' : 'file',
+      \ 'description' : 'global with -f option',
+      \ 'result' : function('unite#libs#gtags#result2unite'),
+      \ 'enable_tree_matcher' : 1,
+      \ 'hooks'  : {
+         \'on_syntax' : function("unite#libs#gtags#on_syntax"),
+         \'on_init'   : function("unite#libs#gtags#on_init_common"),
+         \ },
+      \ 'syntax' : "uniteSource__Gtags",
+      \}
+function! s:file.option(args, context)
+  if empty(a:args)
+    let l:pattern = buffer_name("%")
+  else
+    let l:pattern = a:args[0]
+  endif
+  return {
+        \'short': 'f',
+        \'long': '',
+        \'pattern' : l:pattern 
+        \}
+endfunction
+" }}}
+
 let s:gtags_commands  = [
       \ s:ref,
       \ s:def,
       \ s:context,
       \ s:completion,
       \ s:grep,
+      \ s:file,
       \]
 
 function! unite#sources#gtags#define()
