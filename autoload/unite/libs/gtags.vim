@@ -46,6 +46,7 @@ let s:default_config = {
       \ "def_option" : "d -e",
       \ "result_option" : "ctags-mod",
       \ "global_cmd" : "global",
+      \ "enable_nearness" : 0,
       \ }
 
 let s:default_project_config_value = {
@@ -73,11 +74,13 @@ endfunction
 
 " execute global command and return result
 function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
+  let l:long_option = a:long_option .
+        \ (unite#libs#gtags#get_global_config("enable_nearness") ? " --nearness=\"" . fnamemodify(expand('%:p'), ':h') . "\"" : '')
   let l:short_option = a:short_option . (unite#libs#gtags#get_project_config("absolute_path") ? "a" : '')
   " build command
   let l:cmd = printf("%s %s -q%s %s",
         \ unite#libs#gtags#get_global_config("global_cmd"),
-        \ a:long_option,
+        \ l:long_option,
         \ l:short_option,
         \ g:unite_source_gtags_shell_quote . a:pattern . g:unite_source_gtags_shell_quote)
 
