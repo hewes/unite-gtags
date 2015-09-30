@@ -53,6 +53,7 @@ let s:default_project_config_value = {
       \ 'treelize': 0,
       \ 'absolute_path': 0,
       \ 'gtags_libpath': [],
+      \ 'through_all_tags': 0,
       \ }
 
 function! unite#libs#gtags#get_global_config(key)
@@ -75,7 +76,8 @@ endfunction
 " execute global command and return result
 function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
   let l:long_option = a:long_option .
-        \ (unite#libs#gtags#get_global_config("enable_nearness") ? " --nearness=\"" . fnamemodify(expand('%:p'), ':h') . "\"" : '')
+        \ (unite#libs#gtags#get_global_config("enable_nearness") ? " --nearness=\"" . fnamemodify(expand('%:p'), ':h') . "\"" : '') .
+        \ (unite#libs#gtags#get_project_config("through_all_tags") ? " --through" : '')
   let l:short_option = a:short_option . (unite#libs#gtags#get_project_config("absolute_path") ? "a" : '')
   " build command
   let l:cmd = printf("%s %s -q%s %s",
