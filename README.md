@@ -89,6 +89,7 @@ Following items are configured for each project:
 - `treelize (0 or 1)`: show Unite's items in tree format or not
 - `absolute_path (0 or 1)`: add `-a` option to global command or not
 - `gtags_libpath (list of string)`: join with ':' and use it as `GTAGSLIBPATH`
+- `through_all_tags (0 or 1)`: add `--through` option to global command or not
 
 You can set default configuration with specifying `_` as project name.
 
@@ -154,6 +155,12 @@ When configure gtags\_libpath with following
 `unite-gtags` executes `global` with temporary environment variable `GTAGSLIBPATH` like below
 
     GTAGSLIBPATH=$GTAGSLIBPATH:/usr/include/:/home/foo/include/ global ...
+
+#### through\_all\_tags
+
+By default, a search is ended without go through all the tag files listed in GTAGSLIBPATH when tags are found in a project's tag file. This behavior may be unintended if there are definitions with the same name as the one defined in a project.
+
+When `through_all_tags = 1`, `unite-gtags` adds `--through` option to `global` command and it makes a search go through all the tag files listed in GTAGSLIBPATH. This option is ignored when either `-s`, `-r` or `-l` option is specified.
 
 ### Syntax Highlight
 
