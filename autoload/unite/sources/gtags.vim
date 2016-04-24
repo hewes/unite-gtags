@@ -192,15 +192,19 @@ function! unite#sources#gtags#define()
     if has_key(gtags_command, 'enable_tree_matcher')
       let l:source['filters'] = ['gtags_tree_matcher']
     endif
-    if has_key(gtags_command, 'syntax')
-      let l:source['syntax'] = gtags_command.syntax
-    endif
+
+    for key in ['syntax', 'default_kind']
+      if has_key(gtags_command, key)
+        let l:source[key] = get(gtags_command, key)
+      endif
+    endfor
+
     function! l:source.gather_candidates(args, context)
       let l:options = self.gtags_option(a:args, a:context)
       if type(l:options) != type({})
         return []
       endif
-      let l:result = unite#libs#gtags#exec_global(l:options.short, l:options.long, l:options.pattern)
+      let l:result = unite#libs#gtags#exec_global(l:options)
       return self.gtags_result(self.name , l:result, a:context)
     endfunction
     call add(l:sources, l:source)

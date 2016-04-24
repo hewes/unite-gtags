@@ -74,17 +74,17 @@ endif
 endfunction
 
 " execute global command and return result
-function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
-  let l:long_option = a:long_option .
+function! unite#libs#gtags#exec_global(options)
+  let l:long_option = get(a:options, 'long_option', '') .
         \ (unite#libs#gtags#get_global_config("enable_nearness") ? " --nearness=\"" . fnamemodify(expand('%:p'), ':h') . "\"" : '') .
         \ (unite#libs#gtags#get_project_config("through_all_tags") ? " --through" : '')
-  let l:short_option = a:short_option . (unite#libs#gtags#get_project_config("absolute_path") ? "a" : '')
+  let l:short_option = get(a:options, 'short_option', '') . (unite#libs#gtags#get_project_config("absolute_path") ? "a" : '')
   " build command
   let l:cmd = printf("%s %s -q%s %s",
         \ unite#libs#gtags#get_global_config("global_cmd"),
         \ l:long_option,
         \ l:short_option,
-        \ g:unite_source_gtags_shell_quote . a:pattern . g:unite_source_gtags_shell_quote)
+        \ g:unite_source_gtags_shell_quote . get(a:options, 'pattern', '') . g:unite_source_gtags_shell_quote)
 
   let l:gtags_libpath = unite#libs#gtags#get_project_config("gtags_libpath")
   if !empty(l:gtags_libpath)
@@ -97,8 +97,13 @@ function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
   endif
 
   " specify --result option
-  let l:result_option = unite#libs#gtags#get_global_config("result_option")
-  let l:built_cmd = printf("%s --result=%s", l:cmd, result_option)
+  if get(a:options, 'disable_result_option', 0)
+    let l:built_cmd = printf("%s", l:cmd)
+  else
+    let l:result_option = unite#libs#gtags#get_global_config("result_option")
+    let l:built_cmd = printf("%s --result=%s", l:cmd, result_option)
+  endif
+
   let l:result = system(l:built_cmd)
 
   if v:shell_error != 0
@@ -126,6 +131,13 @@ function! unite#libs#gtags#exec_global(short_option, long_option, pattern)
   else
     return l:result
   endif
+endfunction
+
+function! unite#libs#gtags#result_as_filepath(source, result, context)
+  if empty(a:result)
+    return []
+  endif
+  return unite#helper#paths2candidates(split(a:result, '\r\n\|\r\|\n'))
 endfunction
 
 " build unite items from global command result
