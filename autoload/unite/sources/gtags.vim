@@ -53,7 +53,7 @@ function! s:def.option(args, context)
   return {
         \'short': unite#libs#gtags#get_global_config("def_option"),
         \'long': '',
-        \'pattern' : l:pattern 
+        \'pattern' : l:pattern
         \}
 endfunction
 " }}}
@@ -166,8 +166,34 @@ function! s:file.option(args, context)
   return {
         \'short': 'f',
         \'long': '',
-        \'pattern' : l:pattern 
+        \'pattern' : l:pattern
         \}
+endfunction
+" }}}
+
+" source gtags/path {{{
+let s:path = {
+      \ 'name' : 'path',
+      \ 'description' : 'global with -P option',
+      \ 'enable_tree_matcher' : 1,
+      \ 'hooks'  : {
+         \'on_syntax' : function("unite#libs#gtags#on_syntax"),
+         \'on_init'   : function("unite#libs#gtags#on_init_common"),
+         \ },
+      \ 'syntax' : "uniteSource__Gtags",
+      \ 'result' : function('unite#libs#gtags#result_as_filepath'),
+      \}
+function! s:path.option(args, context)
+  if empty(a:args)
+    let l:pattern = ''
+  else
+    let l:pattern = a:args[0]
+  endif
+  return {
+        \ 'short': unite#libs#gtags#get_global_config("path_option"),
+        \ 'long': '',
+        \ 'pattern' : l:pattern ,
+        \ }
 endfunction
 " }}}
 
@@ -178,6 +204,7 @@ let s:gtags_commands  = [
       \ s:completion,
       \ s:grep,
       \ s:file,
+      \ s:path,
       \]
 
 function! unite#sources#gtags#define()
