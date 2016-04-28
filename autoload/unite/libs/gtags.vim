@@ -75,15 +75,15 @@ endfunction
 
 " execute global command and return result
 function! unite#libs#gtags#exec_global(options)
-  let l:long_option = get(a:options, 'long_option', '') .
+  let l:long = get(a:options, 'long', '') .
         \ (unite#libs#gtags#get_global_config("enable_nearness") ? " --nearness=\"" . fnamemodify(expand('%:p'), ':h') . "\"" : '') .
         \ (unite#libs#gtags#get_project_config("through_all_tags") ? " --through" : '')
-  let l:short_option = get(a:options, 'short_option', '') . (unite#libs#gtags#get_project_config("absolute_path") ? "a" : '')
+  let l:short = get(a:options, 'short', '') . (unite#libs#gtags#get_project_config("absolute_path") ? "a" : '')
   " build command
   let l:cmd = printf("%s %s -q%s %s",
         \ unite#libs#gtags#get_global_config("global_cmd"),
-        \ l:long_option,
-        \ l:short_option,
+        \ l:long,
+        \ l:short,
         \ g:unite_source_gtags_shell_quote . get(a:options, 'pattern', '') . g:unite_source_gtags_shell_quote)
 
   let l:gtags_libpath = unite#libs#gtags#get_project_config("gtags_libpath")
