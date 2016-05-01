@@ -45,6 +45,7 @@ let s:default_config = {
       \ "ref_option" : "rs -e",
       \ "def_option" : "d -e",
       \ "result_option" : "ctags-mod",
+      \ "path_option" : "P -e",
       \ "global_cmd" : "global",
       \ "enable_nearness" : 0,
       \ }
@@ -149,7 +150,7 @@ function! unite#libs#gtags#result2unite(source, result, context)
         \ 's:format["'. unite#libs#gtags#get_global_config("result_option") . '"].func(v:val)')
   let l:candidates = filter(l:candidates, '!empty(v:val)')
   let l:candidates = map(l:candidates, 'extend(v:val, {"source" : a:source})')
-  let a:context.is_treelized = !(a:context.immediately && len(l:candidates) == 1) && 
+  let a:context.is_treelized = !(a:context.immediately && len(l:candidates) == 1) &&
         \ unite#libs#gtags#get_project_config('treelize')
   if a:context.is_treelized
     return unite#libs#gtags#treelize(l:candidates)

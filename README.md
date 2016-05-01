@@ -27,6 +27,7 @@ This source provides following sub commands for `Unite`
 - `Unite gtags/grep`
 - `Unite gtags/completion`
 - `Unite gtags/file`
+- `Unite gtags/path`
 
 ### Unite gtags/context
 
@@ -76,6 +77,14 @@ It executes `global -f` and show results.
 
 You can specify `<pattern>` as an argument `:Unite gtags/file:<pathname>`.
 When exeucte this command with no arguments `:Unite gtags/file`, unite-gtags uses `buffer_name("%")` as filepath.
+
+### Unite gtags/path
+
+`Unite gtags/path` lists all paths in GTAGS.
+It executes `global -P` and show results.
+
+You can specify `<pattern>` as an argument `:Unite gtags/path:<pattern>`.
+When exeucte Unite with no arguments `:Unite gtags/path`, all paths is shown.
 
 ## Configuration
 
