@@ -12,7 +12,7 @@ Install the distributed files into your Vim script directory which is usually
 
 ## Prerequisite
 
-GNU GLOBAL (5.7 or later) must be installed your system and the executable binary `global` on your PATH.
+GNU GLOBAL (6.0 or later) must be installed your system and the executable binary `global` on your PATH.
 
 By default, `unite-gtags` assumes GNU GLOBAL 6.X.
 If you use GNU GLOBAL 5.X, see `GNU GLOBAL Compatibility` section.
