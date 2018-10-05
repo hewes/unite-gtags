@@ -9,7 +9,7 @@ let s:format = {
       \ }
 
 function! s:format["ctags-x"].func(line)
-  let l:items = matchlist(a:line, '\s\+\(\d\+\)\s\+\(.*\.\S\+\)\s\(.*\)$')
+  let l:items = matchlist(a:line, '\s\+\(\d\+\)\s\+\(.\{-}\.\S\+\)\s\(.*\)$')
   if empty(l:items)
     call unite#print_error('[unite-gtags] unexpected result for ctags-x: ' . a:line)
     return {}
